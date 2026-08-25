@@ -92,7 +92,7 @@ prepare_defconfig() {
 # ----------------------------------------------------------------- build ---
 
 make_args() {
-	printf '%s' "O=out ARCH=${ARCH}"
+	printf '%s' "ARCH=${ARCH}"
 	[ -n "${CUSTOM_CMDS:-}" ] && printf ' %s' "$CUSTOM_CMDS"
 	[ -n "${EXTRA_CMDS:-}"  ] && printf ' %s' "$EXTRA_CMDS"
 	[ -n "${GCC_64:-}"      ] && printf ' %s' "$GCC_64"
