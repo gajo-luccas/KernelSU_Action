@@ -12,7 +12,7 @@ set -euo pipefail
 KERNEL_DIR=${KERNEL_DIR:?KERNEL_DIR must be set}
 WORKSPACE=${WORKSPACE:-$(cd "${KERNEL_DIR}/.." && pwd)}
 ARCH=${ARCH:-arm64}
-OUT="${KERNEL_DIR}/out"
+OUT="${KERNEL_DIR}"
 
 DEFCONFIG_PATH="${KERNEL_DIR}/arch/${ARCH}/configs/${KERNEL_CONFIG}"
 
