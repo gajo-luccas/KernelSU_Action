@@ -360,7 +360,55 @@ kpm_patch_image() {
 	summary "| KPM | applied |"
 	endgroup
 }
+fix_vayu_xdp_buff() {
+    local filter_h="${KERNEL_DIR}/include/linux/filter.h"
+    local xdp_h="${KERNEL_DIR}/include/net/xdp.h"
 
+    [ -f "$filter_h" ] || return 0
+    [ -f "$xdp_h" ] || return 0
+
+    grep -q 'struct xdp_buff {' "$filter_h" || return 0
+    grep -q 'convert_to_xdp_frame' "$xdp_h" || return 0
+
+    python3 - "$filter_h" "$xdp_h" <<'PY'
+from pathlib import Path
+import sys
+
+filter_h = Path(sys.argv[1])
+xdp_h = Path(sys.argv[2])
+
+f = filter_h.read_text()
+x = xdp_h.read_text()
+
+block = """struct xdp_buff {
+\tvoid *data;
+\tvoid *data_end;
+\tvoid *data_meta;
+\tvoid *data_hard_start;
+\tstruct xdp_rxq_info *rxq;
+};
+
+"""
+
+if block not in f:
+    raise SystemExit("xdp_buff block not found in filter.h")
+
+marker = "} ____cacheline_aligned; /* perf critical, avoid false-sharing */\n\n"
+
+if marker not in x:
+    raise SystemExit("xdp insertion point not found")
+
+f = f.replace(block, "", 1)
+
+if "struct xdp_buff {" not in x:
+    x = x.replace(marker, marker + "\n" + block, 1)
+
+filter_h.write_text(f)
+xdp_h.write_text(x)
+
+print("[+] fixed xdp_buff header ordering for this 4.14 tree")
+PY
+}
 # --------------------------------------------------------------------- main ---
 
 if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
