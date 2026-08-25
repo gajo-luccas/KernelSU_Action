@@ -139,7 +139,7 @@ build_kernel() {
 
 	info "make ${args}"
 	# shellcheck disable=SC2086
-	make -j"$(nproc --all)" CC="$cc" $args \
+	make -j1 CC="$cc" $args \
 		|| die "kernel build failed"
 
 	endgroup
