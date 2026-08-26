@@ -141,7 +141,7 @@ sed -i 's|#include <spi-xiaomi-tp.h>|#include "spi-xiaomi-tp.h"|' drivers/input/
 
 info "make ${args}"
 # shellcheck disable=SC2086
-make -j2 CC="$cc" KCFLAGS="-I$(pwd)/drivers/hid -I$(pwd)/drivers/media/platform/msm/camera/cam_core -I$(pwd)/drivers/media/platform/msm/camera/cam_isp/isp_hw_mgr" $args || die "kernel build failed"
+make -j2 CC="$cc" KCFLAGS="-I$(pwd)/drivers/hid -I$(pwd)/drivers/media/platform/msm/camera/cam_core -I$(pwd)/drivers/media/platform/msm/camera/cam_req_mgr -I$(pwd)/drivers/media/platform/msm/camera/cam_isp/isp_hw_mgr" $args || die "kernel build failed"
 
 
 
