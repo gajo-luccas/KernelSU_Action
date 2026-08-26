@@ -8,7 +8,7 @@ set -euo pipefail
 KERNEL_DIR=${KERNEL_DIR:?KERNEL_DIR must be set}
 WORKSPACE=${WORKSPACE:-$(cd "${KERNEL_DIR}/.." && pwd)}
 ARCH=${ARCH:-arm64}
-BOOT_OUT="${KERNEL_DIR}/out/arch/${ARCH}/boot"
+BOOT_OUT="${KERNEL_DIR}/arch/${ARCH}/boot"
 AK3="${WORKSPACE}/AnyKernel3"
 
 make_anykernel3() {
