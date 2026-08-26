@@ -138,7 +138,7 @@ build_kernel() {
 		|| die "defconfig generation failed"
 	info "make ${args}"
 	# shellcheck disable=SC2086
-	make -j1 CC="$cc" $args \
+	make -j1 CC="$cc" KCFLAGS="-I$(pwd)/drivers/hid" $args \
     || die "kernel build failed"
 
 	endgroup
