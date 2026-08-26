@@ -136,29 +136,6 @@ build_kernel() {
 	# shellcheck disable=SC2086
 	make -j"$(nproc --all)" CC=clang $args "${KERNEL_CONFIG}" \
 		|| die "defconfig generation failed"
-
-	python3 - <<'PY'
-from pathlib import Path
-
-p = Path("Makefile")
-lines = p.read_text().splitlines()
-
-needle = "enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang"
-fixed = False
-
-for i, line in enumerate(lines):
-    if needle in line and "cc-option" in line:
-        indent = line[:len(line) - len(line.lstrip())]
-        lines[i] = indent + "KBUILD_CFLAGS += -" + needle
-        fixed = True
-        break
-
-if not fixed:
-    raise SystemExit("ERRO: flag trivial-auto-var-init nao encontrada no Makefile")
-
-p.write_text("\n".join(lines) + "\n")
-print("[+] Clang 14 trivial-auto-var-init fix aplicado")
-PY
 	info "make ${args}"
 	# shellcheck disable=SC2086
 	make -j1 CC="$cc" $args \
