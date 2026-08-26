@@ -137,6 +137,7 @@ build_kernel() {
 	make -j"$(nproc --all)" CC=clang $args "${KERNEL_CONFIG}" \
 		|| die "defconfig generation failed"
 
+	sed -i 's|KBUILD_CFLAGS += $(call cc-option, -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang)|KBUILD_CFLAGS += -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang|' "${KERNEL_DIR}/Makefile"
 	info "make ${args}"
 	# shellcheck disable=SC2086
 	make -j"$(nproc --all)" CC="$cc" $args \
