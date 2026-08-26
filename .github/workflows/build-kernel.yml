@@ -207,7 +207,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.KERNEL_IMAGE_NAME }}${{ env.LOCALVERSION }}${{ env.UPLOADNAME }}-${{ env.DEVICE }}-${{ env.BUILD_TIME }}
-          path: kernel_workspace/android-kernel/out/arch/${{ env.ARCH }}/boot/${{ env.KERNEL_IMAGE_NAME }}
+          path: kernel_workspace/android-kernel/arch/${{ env.ARCH }}/boot/${{ env.KERNEL_IMAGE_NAME }}
           if-no-files-found: error
 
       - name: Upload AnyKernel3
