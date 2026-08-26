@@ -141,15 +141,22 @@ build_kernel() {
 from pathlib import Path
 
 p = Path("Makefile")
-s = p.read_text()
+lines = p.read_text().splitlines()
 
-old = "KBUILD_CFLAGS += $(call cc-option, -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang)"
-new = "KBUILD_CFLAGS += -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang"
+needle = "enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang"
+fixed = False
 
-if old not in s:
-    raise SystemExit("ERRO: linha trivial-auto-var-init nao encontrada no Makefile")
+for i, line in enumerate(lines):
+    if needle in line and "cc-option" in line:
+        indent = line[:len(line) - len(line.lstrip())]
+        lines[i] = indent + "KBUILD_CFLAGS += -" + needle
+        fixed = True
+        break
 
-p.write_text(s.replace(old, new, 1))
+if not fixed:
+    raise SystemExit("ERRO: flag trivial-auto-var-init nao encontrada no Makefile")
+
+p.write_text("\n".join(lines) + "\n")
 print("[+] Clang 14 trivial-auto-var-init fix aplicado")
 PY
 	info "make ${args}"
