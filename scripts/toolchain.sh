@@ -123,7 +123,9 @@ setup_gcc() {
 		fetch "https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/refs/tags/${gcc_tag}.tar.gz" \
 			"${WORKSPACE}/gcc-aarch64.tar.gz"
 		extract_archive "${WORKSPACE}/gcc-aarch64.tar.gz" "$GCC64_DIR"
-		export_env GCC_64 "CROSS_COMPILE=${GCC64_DIR}/bin/aarch64-linux-android-"
+		echo "[DEBUG] GCC64 bin contents:"
+ls -1 "${GCC64_DIR}/bin" | grep '^aarch64-linux-' | head -50
+export_env GCC_64 "CROSS_COMPILE=${GCC64_DIR}/bin/aarch64-linux-android-"
 		endgroup
 	fi
 
