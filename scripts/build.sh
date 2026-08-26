@@ -132,14 +132,17 @@ build_kernel() {
 	fi
 
 	cd "$KERNEL_DIR"
-	info "make ${args} ${KERNEL_CONFIG}"
-	# shellcheck disable=SC2086
-	make -j"$(nproc --all)" CC=clang $args "${KERNEL_CONFIG}" \
-	sed -i 's|#include <spi-xiaomi-tp.h>|#include "spi-xiaomi-tp.h"|' drivers/input/touchscreen/spi-xiaomi-tp.c
-		|| die "defconfig generation failed"
-	info "make ${args}"
-	# shellcheck disable=SC2086
-	make -j1 CC="$cc" KCFLAGS="-I$(pwd)/drivers/hid" $args \
+
+info "make ${args} ${KERNEL_CONFIG}"
+# shellcheck disable=SC2086
+make -j"$(nproc --all)" CC=clang $args "${KERNEL_CONFIG}" \
+    || die "defconfig generation failed"
+
+sed -i 's|#include <spi-xiaomi-tp.h>|#include "spi-xiaomi-tp.h"|' drivers/input/touchscreen/spi-xiaomi-tp.c
+
+info "make ${args}"
+# shellcheck disable=SC2086
+make -j1 CC="$cc" KCFLAGS="-I$(pwd)/drivers/hid" $args \
     || die "kernel build failed"
 
 	endgroup
