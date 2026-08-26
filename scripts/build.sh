@@ -92,7 +92,7 @@ prepare_defconfig() {
 # ----------------------------------------------------------------- build ---
 
 make_args() {
-	printf '%s' "ARCH=${ARCH} CLANG_TRIPLE=aarch64-linux-gnu-"
+	printf '%s' "ARCH=${ARCH} CLANG_TRIPLE=aarch64-linux-gnu- KCFLAGS=-enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang"
 	[ -n "${CUSTOM_CMDS:-}" ] && printf ' %s' "$CUSTOM_CMDS"
 	[ -n "${EXTRA_CMDS:-}"  ] && printf ' %s' "$EXTRA_CMDS"
 	[ -n "${GCC_64:-}"      ] && printf ' %s' "$GCC_64"
