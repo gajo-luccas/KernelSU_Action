@@ -45,7 +45,6 @@ sed -i '/device.name1=maguro/d' "${AK3}/anykernel.sh"
 sed -i '/device.name2=toro/d' "${AK3}/anykernel.sh"
 sed -i '/device.name3=toroplus/d' "${AK3}/anykernel.sh"
 sed -i '/device.name4=tuna/d' "${AK3}/anykernel.sh"
-sed -i '0,/^[[:space:]]*dump_boot;/{/^[[:space:]]*dump_boot;/,/^[[:space:]]*write_boot;/c\dump_boot;\nwrite_boot;}' "${AK3}/anykernel.sh"
 
 
 fi
