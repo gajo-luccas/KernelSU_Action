@@ -40,7 +40,15 @@ make_anykernel3() {
 		sed -i 's!BLOCK=/dev/block/platform/omap/omap_hsmmc.0/by-name/boot;!BLOCK=auto;!g' "${AK3}/anykernel.sh"
 		sed -i 's/IS_SLOT_DEVICE=0;/is_slot_device=auto;/g' "${AK3}/anykernel.sh"
 		sed -i 's/kernel.string=.*/kernel.string=Gajos Kernel/' "${AK3}/anykernel.sh"
-	fi
+
+sed -i '/device.name1=maguro/d' "${AK3}/anykernel.sh"
+sed -i '/device.name2=toro/d' "${AK3}/anykernel.sh"
+sed -i '/device.name3=toroplus/d' "${AK3}/anykernel.sh"
+sed -i '/device.name4=tuna/d' "${AK3}/anykernel.sh"
+
+sed -i '/dump_boot;/,/write_boot;/c\dump_boot;\nwrite_boot;' "${AK3}/anykernel.sh"
+
+fi
 
 	cp "${BOOT_OUT}/${KERNEL_IMAGE_NAME}" "${AK3}/" \
 		|| die "kernel image missing at ${BOOT_OUT}/${KERNEL_IMAGE_NAME}"
