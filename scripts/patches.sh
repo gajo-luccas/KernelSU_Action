@@ -434,7 +434,6 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
 			fi
 
 			if is_true "${ENABLE_SUSFS:-false}";      then susfs_apply;      fi
-			sed -i 's/if ($(1)) >\/dev\/null 2>\&1;/if ($(1));/' "${KERNEL_DIR}/scripts/Kbuild.include"
 			fix_vayu_xdp_buff
 			if is_true "${ENABLE_HIDE_STUFF:-false}"; then hide_stuff_apply; fi
 			;;
