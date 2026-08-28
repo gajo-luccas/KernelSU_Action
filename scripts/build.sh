@@ -145,7 +145,6 @@ sed -i 's/#include <cam_sync_api.h>/#include "cam_sync_api.h"/' \
   drivers/media/platform/msm/camera/cam_sync/cam_sync_util.h
 sed -i '1347,1352d' Makefile
 clang --target=aarch64-linux-gnu -Werror -fstack-protector-strong -c -x c /dev/null -o /tmp/stacktest.o
-sed -i '/Wno-enum-enum-conversion/d' scripts/Makefile.extrawarn
 sed -i 's/kprobe_override:1;/kprobe_override:1,\n\t\t\t\tis_func:1;/' include/linux/filter.h
 sed -i '/struct bpf_prog \*prog;/a\        void *jit_data;' include/linux/bpf.h
 sed -i '/u32 id;/a\        u32 func_cnt;' include/linux/bpf.h
