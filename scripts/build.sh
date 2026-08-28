@@ -137,12 +137,8 @@ info "make ${args} ${KERNEL_CONFIG}"
 # shellcheck disable=SC2086
 make -j"$(nproc --all)" CC=clang $args "${KERNEL_CONFIG}" || die "defconfig generation failed"
 
-sed -i 's|#include <spi-xiaomi-tp.h>|#include "spi-xiaomi-tp.h"|' drivers/input/touchscreen/spi-xiaomi-tp.c
-
 info "make ${args}"
 # shellcheck disable=SC2086
-sed -i 's/#include <cam_sync_api.h>/#include "cam_sync_api.h"/' \
-  drivers/media/platform/msm/camera/cam_sync/cam_sync_util.h
 sed -i '1347,1352d' Makefile
 clang --target=aarch64-linux-gnu -Werror -fstack-protector-strong -c -x c /dev/null -o /tmp/stacktest.o
 sed -i 's/kprobe_override:1;/kprobe_override:1,\n\t\t\t\tis_func:1;/' include/linux/filter.h
