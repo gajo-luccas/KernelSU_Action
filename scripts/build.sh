@@ -139,7 +139,6 @@ make -j"$(nproc --all)" CC=clang $args "${KERNEL_CONFIG}" || die "defconfig gene
 
 info "make ${args}"
 # shellcheck disable=SC2086
-clang --target=aarch64-linux-gnu -Werror -fstack-protector-strong -c -x c /dev/null -o /tmp/stacktest.o
 make -j2 CC=clang V=1 KCFLAGS="-I$(pwd)/drivers/hid -I$(pwd)/drivers/media/platform/msm/camera/cam_core -I$(pwd)/drivers/media/platform/msm/camera/cam_req_mgr -I$(pwd)/drivers/media/platform/msm/camera/cam_isp/isp_hw_mgr -I$(pwd)/drivers/media/platform/msm/camera/cam_sensor_module/cam_cci -I$(pwd)/drivers/media/platform/msm/camera/cam_sensor_module/cam_sensor_utils -I$(pwd)/drivers/media/platform/msm/camera/cam_utils -I$(pwd)/drivers/platform/msm/ipa/ipa_v3" $args || die "kernel build failed"
 	endgroup
 }
