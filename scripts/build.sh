@@ -151,7 +151,7 @@ sed -i '/struct bpf_prog \*prog;/a\        void *jit_data;' include/linux/bpf.h
 sed -i '/u32 id;/a\        u32 func_cnt;' include/linux/bpf.h
 sed -i '/u32 func_cnt;/a\        bool verifier_zext;' include/linux/bpf.h
 sed -i '/void \*jit_data;/i\        struct bpf_prog **func;' include/linux/bpf.h
-sed -i '/struct user_struct \*user;/a\        char name[BPF_OBJ_NAME_LEN];' include/linux/bpf.h
+sed -i '/struct user_struct \*user;/a\        char name[16];' include/linux/bpf.h
 sed -i 's/atomic_long_add(nr_pages, \&page_zone(page)->managed_pages);/page_zone(page)->managed_pages += nr_pages;/' mm/page_alloc.c
 make -j2 CC=clang V=1 KCFLAGS="-I$(pwd)/drivers/hid -I$(pwd)/drivers/media/platform/msm/camera/cam_core -I$(pwd)/drivers/media/platform/msm/camera/cam_req_mgr -I$(pwd)/drivers/media/platform/msm/camera/cam_isp/isp_hw_mgr -I$(pwd)/drivers/media/platform/msm/camera/cam_sensor_module/cam_cci -I$(pwd)/drivers/media/platform/msm/camera/cam_sensor_module/cam_sensor_utils -I$(pwd)/drivers/media/platform/msm/camera/cam_utils -I$(pwd)/drivers/platform/msm/ipa/ipa_v3" $args || die "kernel build failed"
 	endgroup
