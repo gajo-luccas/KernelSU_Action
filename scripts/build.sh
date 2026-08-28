@@ -139,14 +139,7 @@ make -j"$(nproc --all)" CC=clang $args "${KERNEL_CONFIG}" || die "defconfig gene
 
 info "make ${args}"
 # shellcheck disable=SC2086
-sed -i '1347,1352d' Makefile
 clang --target=aarch64-linux-gnu -Werror -fstack-protector-strong -c -x c /dev/null -o /tmp/stacktest.o
-sed -i 's/kprobe_override:1;/kprobe_override:1,\n\t\t\t\tis_func:1;/' include/linux/filter.h
-sed -i '/struct bpf_prog \*prog;/a\        void *jit_data;' include/linux/bpf.h
-sed -i '/u32 id;/a\        u32 func_cnt;' include/linux/bpf.h
-sed -i '/u32 func_cnt;/a\        bool verifier_zext;' include/linux/bpf.h
-sed -i '/void \*jit_data;/i\        struct bpf_prog **func;' include/linux/bpf.h
-sed -i '/struct user_struct \*user;/a\        char name[16];' include/linux/bpf.h
 make -j2 CC=clang V=1 KCFLAGS="-I$(pwd)/drivers/hid -I$(pwd)/drivers/media/platform/msm/camera/cam_core -I$(pwd)/drivers/media/platform/msm/camera/cam_req_mgr -I$(pwd)/drivers/media/platform/msm/camera/cam_isp/isp_hw_mgr -I$(pwd)/drivers/media/platform/msm/camera/cam_sensor_module/cam_cci -I$(pwd)/drivers/media/platform/msm/camera/cam_sensor_module/cam_sensor_utils -I$(pwd)/drivers/media/platform/msm/camera/cam_utils -I$(pwd)/drivers/platform/msm/ipa/ipa_v3" $args || die "kernel build failed"
 	endgroup
 }
